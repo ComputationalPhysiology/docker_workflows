@@ -1,13 +1,11 @@
 # Docker workflows
 
-In this repository we will explain how you can develop your code using
-docker as an isolated environment. The motivation behind this is due
-to difficulties to develop code based on
-[FEniCS](https://fenicsproject.org), which has good support in docker
-but which is non-trivial to install on you local machine. Since many
-libraries and third-party package depends on specific versions of
-python there is a need for good and efficient workflows that
-circumvent these issues.
+In this repository we will explain how you can create a development
+workflow using docker. This is motivated by the fact that developing
+code that is based on [FEniCS](https://fenicsproject.org) can be
+challenging. Since many libraries and third-party package depends on
+specific versions of FEniCS there is a need for good and efficient
+workflows that circumvent these issues.
 
 ## Prerequisites
 
@@ -192,7 +190,7 @@ since python2 is default we need to also update dolfin-adjoint so that
 we use python3 instead.
 
 
-#### Example 3
+### Example 3
 
 In this example we will be using
 [CBCBeat](https://bitbucket.org/meg/cbcbeat). Source code for this
