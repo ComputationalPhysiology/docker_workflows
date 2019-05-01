@@ -181,7 +181,7 @@ In this example we will be running the same code and using allmost the
 same commands as in Example 1. The only difference is that we will be
 using [Jupyter notebooks](https://jupyter.org) for development. 
 If you are interested in more details you can check out the
-[docuementation in the FEniCS container
+[documentation in the FEniCS container
 docs](https://fenics.readthedocs.io/projects/containers/en/latest/jupyter.html).
 
 The source files for this example can be found in
@@ -260,9 +260,68 @@ we use python3 instead.
 
 ### Example 3
 
-In this example we will be using
-[CBCBeat](https://bitbucket.org/meg/cbcbeat). Source code for this
-will come later.
+In this example we will be solving the [Mondomain
+model](https://en.wikipedia.org/wiki/Monodomain_model) using
+[CBCBeat](https://bitbucket.org/meg/cbcbeat). We will use a custom
+cellular model from the [CellML model
+repository](https://models.physiomeproject.org/cellml), and convert it
+to a format that CBCBeat can use using [gotran](https://pypi.org/project/gotran/).
+All source files are availble in [example_3](example_3)
+
+#### The Dockerfile
+Also here we will be using the dolfin-adjoint 2017.2 image as
+base. Futhermore, we will install a [fork of
+cbcbeat](https://bitbucket.org/finsberg/cbcbeat) which contains some
+fixes and which is compatible with the latest version of
+gotran. Finally we will install `gotran` which is available at
+[pypi](https://pypi.org).
+
+Build docker image
+```shell
+docker build -t example_3 .
+```
+and start a container interatively
+```shell
+docker run -ti --name example-3 -w /home/fenics/shared -v $(pwd):/home/fenics/shared example_3
+```
+
+
+#### Code generation for cell model
+We will use the [Tentussher model for midmyocardial cells from
+2004](https://models.physiomeproject.org/exposure/c7f7ced1e002d9f0af1b56b15a873736/tentusscher_noble_noble_panfilov_2004_a.cellml/view)
+which can be downlaod by typing the following command inside the container 
+
+```
+wget https://models.physiomeproject.org/workspace/tentusscher_noble_noble_panfilov_2004/@@rawfile/941ec8e54e46e6fe82765c17f1d47582169baac2/tentusscher_noble_noble_panfilov_2004_a.cellml
+```
+
+This is a file in `.cellml` format. We start by converting it to an
+`.ode` file that is the format that `gotran` uses to declare ODEs
+
+```
+cellml2gotran tentusscher_noble_noble_panfilov_2004_a.cellml
+```
+This will generate a new file called `tentusscher_2004_mcell.ode`.
+
+Let us generate two more files which we will use later, type
+```
+gotran2py  tentusscher_2004_mcell.ode --output cell_model_python
+gotran2beat  tentusscher_2004_mcell.ode --output cell_model_cbcbeat
+```
+
+#### Testing the cell model
+
+Open a new terminal window, and start another container that will run
+jupyter notebook
+```
+docker run --name example-3-notebook -w /home/fenics/shared -v $(pwd):/home/fenics/shared -d -p 127.0.0.1:8888:8888 example_3 'jupyter-notebook --ip=0.0.0.0'
+```
+Login (see Example 1 notebook) and run the notebook called
+`cellmodel.ipynb` to see the cell model in action.
+
+#### Running the monodomain solver
+TBW
+
 
 
 ## Troubleshooting
