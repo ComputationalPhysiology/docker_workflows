@@ -18,16 +18,16 @@ python3 simple_ellipsoid.py
 ```
 
 Exit container
-```
+```shell
 exit
 ```
 
 Restart container
-```
+```shell
 docker start example-1
 ```
 
 Execute shell in container and start working
-```
+```shell
 docker exec -ti -u fenics example-1 /bin/bash -l
 ```

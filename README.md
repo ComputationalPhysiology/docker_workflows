@@ -89,7 +89,7 @@ mounted the current working directory `pwd` into the path
 
 When you enter the container, and go to `/home/fenics/shared` you will
 find the files in the same directory as you where in when you ran the
-`docker run` command. Note that you can edit the files on you computer
+`docker run` command. Note that you can edit the files on your computer
 as you would have if you where working in the same directory.
 
 #### Step 4: Do some work
@@ -176,6 +176,74 @@ where `CONTAINER_ID` can be found in the first column when you type
 docker rmi $(docker images -aq)
 ```
 
+### Example 1 Notebook
+In this example we will be running the same code and using allmost the
+same commands as in Example 1. The only difference is that we will be
+using [Jupyter notebooks](https://jupyter.org) for development. 
+If you are interested in more details you can check out the
+[docuementation in the FEniCS container
+docs](https://fenics.readthedocs.io/projects/containers/en/latest/jupyter.html).
+
+The source files for this example can be found in
+[example_1_notebook](example_1_notebook).
+
+#### Step 1 and 2
+The FEniCS docker image allready comes with jupyter installed so we
+can use the same image as in example 1
+
+
+#### Step 3
+
+Sice we want to run a notebook inside the container, and be able to
+acess it in the browser on our host computer we need to redirect the
+port where we run the notebook inside the container to a port that we
+can access at our host. The command we will run is as follows:
+
+```
+docker run --name example-1-notebook -v $(pwd):/home/fenics/shared -d -p 127.0.0.1:8888:8888 example_1 'jupyter-notebook --ip=0.0.0.0'
+```
+
+This will start the container and run the jupter notebook command
+directly. Note that you will not be entering a bash shell like you did
+in Example 1. You can inspect the log inside the container by typing
+
+```
+docker logs example-1-notebook
+```
+The output on mine is
+```
+$ docker logs exmample-1-notebook
+[I 09:50:21.939 NotebookApp] Writing notebook server cookie secret to /home/fenics/.local/share/jupyter/runtime/notebook_cookie_secret
+[I 09:50:22.435 NotebookApp] Serving notebooks from local directory: /home/fenics
+[I 09:50:22.435 NotebookApp] 0 active kernels
+[I 09:50:22.435 NotebookApp] The Jupyter Notebook is running at:
+[I 09:50:22.435 NotebookApp] http://0.0.0.0:8888/?token=9c20697181852bdee7b5da928662e7c87824c4b71f0e0f13
+[I 09:50:22.435 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 09:50:22.435 NotebookApp] No web browser found: could not locate runnable browser.
+[C 09:50:22.436 NotebookApp]
+```
+
+
+#### Step 4
+
+Open you browser and go to http://localhost:8888/.
+This will ask you for a token. In the log you will find the token. In
+my case this is `9c20697181852bdee7b5da928662e7c87824c4b71f0e0f13`. If
+you paste that in and click Log in, then that should redirect you to
+the Files in your container. Go to `shared` and open
+`simple_ellipsoid.ipynb`.
+
+Note that you can make the notebook go the the `shared` folder
+directly by passing the argument `-w /home/fenics/shared` to the
+docker run command. 
+
+
+#### Step 5 and 6
+If you are done working you can simply stop the container (`docker
+stop example-1-notebook`) and when you
+want to start working agains you can just start it again (`docker
+start example-1-notebook`). 
+
 
 ### Example 2
 
@@ -197,12 +265,35 @@ In this example we will be using
 will come later.
 
 
+## Troubleshooting
+
+### Container is allready in use
+
+If get an error similar to this one
+```shell
+docker: Error response from daemon: Conflict. The container name "/example-1" is already in use by container "be0a9e4afb6330183bdc352778c330f39cc397893dc2074acb2c14a15d306003". You have to remove (or rename) that container to be able to reuse that name.
+```
+then you are likely trying to start a container that is allready
+running. To fix this you can simply stop the container. In my case
+this means to run the command
+
+```
+docker stop example-1
+```
+
+
+
 ## Resources
 
-The FEniCS community has made a very nice resource on how to use
-docker as a part of your workflow, and this repository is based on the
-article about [suggested
-workflows](https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html).
+First of all, the best way to improve your workflow is to trry out
+different things and reading the [official docker
+documentation](https://docs.docker.com).
+Also for each docker command you can list all the availbe options by
+passing the `--help` flag, i.e `docker run --help`.
+
+The FEniCS community has alse made a very nice resource on how to use
+docker as a part of your
+[workflow](https://fenics.readthedocs.io/projects/containers/en/latest/work_flows.html).
 
 
 ## License
