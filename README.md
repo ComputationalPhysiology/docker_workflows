@@ -7,6 +7,13 @@ challenging. Since many libraries and third-party package depends on
 specific versions of FEniCS there is a need for good and efficient
 workflows that circumvent these issues.
 
+Most of the examples are based on FEniCS version 2017.2. This version
+of FEniCS is recommended for all use in ComPhy, and works well with
+the [pulse](https://github.com/ComputationalPhysiology/pulse) 
+heart mechanics solver, [cbcbeat](https://bitbucket.org/meg/cbcbeat)
+for electrophysiology, and a stable version of 
+[dolfin-adjoint](http://dolfin-adjoint.org)
+
 ## Prerequisites
 
 You need [docker](https://docs.docker.com).
