@@ -1,4 +1,4 @@
-# cbcbeat from branch voltage_bcs
+# Support for voltage BCs in cbcbeat
 This example uses a branch of cbcbeat that supports extracellular
 voltage boundary conditions. This is a development version that
 is slower and not as well tested as the main branch of cbcbeat. 
