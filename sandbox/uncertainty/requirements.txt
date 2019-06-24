@@ -1,0 +1,8 @@
+numpy>=1.13
+pyyaml==3.12
+setuptools
+scipy
+h5py
+vtk
+chaospy
+scikit-learn

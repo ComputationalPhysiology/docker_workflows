@@ -7,6 +7,37 @@ challenging. Since many libraries and third-party package depends on
 specific versions of FEniCS there is a need for good and efficient
 workflows that circumvent these issues.
 
+Most of the examples are based on FEniCS version 2017.2. This version
+of FEniCS is recommended for all use in ComPhy, and works well with
+the [pulse](https://github.com/ComputationalPhysiology/pulse) 
+heart mechanics solver, [cbcbeat](https://bitbucket.org/meg/cbcbeat)
+for electrophysiology, and a stable version of 
+[dolfin-adjoint](http://dolfin-adjoint.org).
+
+There are several examples, tailored to different needs. Most of them 
+install either [pulse](https://github.com/ComputationalPhysiology/pulse) 
+or [cbcbeat](https://bitbucket.org/meg/cbcbeat), and there 
+are different versions depending on whether you want to develop these
+tools or simply install and use them in your own simulators. The examples 
+can easily be extended with other tools by editing the docker files. 
+
+All the examples included directly in this main folder are tested and 
+should work. The sub-folder sandbox contains more experimental tools that 
+are not fully functional. 
+
+A limitation of working in docker is that you work inside a virtual machine
+that is not able to open windows on your host system. This probably 
+requires some adjustments to your workflow, but it is easy to get used to.
+Two standard approach used in most of the examples is that all code you 
+want to edit is shared from the host OS into the docker machine. With this 
+approach you edit all code using your usual editor, and run the code inside 
+the docker machine just as in a standard terminal. Since the docker machine cannot
+open windows, all visualization must be done separately as a post-processing step,
+and run on the host computer. An alternative approach is to run a Jupyter notebook
+on the docker machine, and edit the notebook through a browser running on the host. 
+
+
+
 ## Prerequisites
 
 You need [docker](https://docs.docker.com).
