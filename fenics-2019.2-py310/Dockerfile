@@ -5,6 +5,7 @@ RUN apt-get update \
     bison \
     ccache \
     cmake \
+    curl \
     doxygen \
     flex \
     g++ \
