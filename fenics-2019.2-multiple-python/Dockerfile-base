@@ -1,0 +1,35 @@
+FROM ubuntu:focal
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    bison \
+    ccache \
+    cmake \
+    curl \
+    flex \
+    ninja-build \
+    g++ \
+    gfortran \
+    git \
+    libboost-filesystem-dev \
+    libboost-iostreams-dev \
+    libboost-math-dev \
+    libboost-program-options-dev \
+    libboost-system-dev \
+    libboost-thread-dev \
+    libboost-timer-dev \
+    libeigen3-dev \
+    libfreetype6-dev \
+    liblapack-dev \
+    libmpich-dev \
+    libopenblas-dev \
+    libpcre3-dev \
+    libpng-dev \
+    libhdf5-mpich-dev \
+    libgmp-dev \
+    libcln-dev \
+    libmpfr-dev \
+    mpich \
+    pkg-config \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*

@@ -1,47 +1,6 @@
-FROM python:3.10-slim-bullseye
+FROM finsberg/py39-base
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    bison \
-    ccache \
-    cmake \
-    curl \
-    doxygen \
-    flex \
-    g++ \
-    gfortran \
-    git \
-    graphviz \
-    libboost-filesystem-dev \
-    libboost-iostreams-dev \
-    libboost-math-dev \
-    libboost-program-options-dev \
-    libboost-system-dev \
-    libboost-thread-dev \
-    libboost-timer-dev \
-    libeigen3-dev \
-    libfreetype6-dev \
-    liblapack-dev \
-    libmpich-dev \
-    libopenblas-dev \
-    libpcre3-dev \
-    libpng-dev \
-    libhdf5-mpich-dev \
-    libgmp-dev \
-    libcln-dev \
-    libmpfr-dev \
-    man \
-    mpich \
-    nano \
-    pkg-config \
-    wget \
-    bash-completion \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set up a virtual environment
-ENV PATH=/venv/bin:$PATH
-RUN python -m venv /venv
+RUN python -m pip install "numpy<1.22"
 
 # Install petsc
 RUN git clone -b release https://gitlab.com/petsc/petsc petsc \
@@ -79,13 +38,13 @@ RUN git clone -b release https://gitlab.com/slepc/slepc slepc \
 
 ENV SLEPC_DIR=/venv/slepc
 
-# Install FFC
-RUN python -m pip install dev-fenics-ffc mpi4py petsc4py pybind11 cmake wheel --no-cache-dir
+RUN python -m pip install wheel cmake --no-cache-dir \
+    && python -m pip install dev-fenics-ffc mpi4py petsc4py pybind11 --no-cache-dir \
+    && python -m pip install slepc4py
 
 # Install dolfin
-RUN git clone https://finsberg@bitbucket.org/finsberg/dolfin.git dolfin \
+RUN git clone https://bitbucket.org/fenics-project/dolfin.git dolfin \
     && cd dolfin \
-    && git checkout finsberg/fix-hdf5-boost-deprecation-errors \
     && cmake -DCMAKE_INSTALL_PREFIX=/venv -DCMAKE_PREFIX_PATH=/venv -DCMAKE_BUILD_TYPE=Release -B build -S . \
     && cmake --build build -j6 \
     && cmake --install build
@@ -98,7 +57,7 @@ ENV MANPATH=/venv/share/man:$MANPATH
 
 # Install the python API
 RUN cd dolfin/python \
-    && python -m pip install . --no-cache-dir \
+    && CMAKE_PREFIX_PATH=/venv/lib/python3.9/site-packages python -m pip install . --no-cache-dir \
     && rm -rf /dolfin
 
 

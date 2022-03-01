@@ -1,0 +1,65 @@
+FROM finsberg/py37-base
+
+RUN python -m pip install "numpy<1.22"
+
+# Install petsc
+RUN git clone -b release https://gitlab.com/petsc/petsc petsc \
+    && cd petsc \
+    && ./configure --COPTFLAGS="-O2" \
+        --CXXOPTFLAGS="-O2" \
+        --FOPTFLAGS="-O2" \
+        --with-fortran-bindings=no \
+        --with-debugging=0 \
+        --download-blacs \
+        --download-hypre \
+        --download-metis \
+        --download-mumps \
+        --download-ptscotch \
+        --download-scalapack \
+        --download-spai \
+        --download-suitesparse \
+        --download-superlu \
+        --prefix=/venv/petsc \
+    && make \
+    && make install \
+    && rm -rf /tmp/* \
+    && rm -rf /petsc
+
+ENV PETSC_DIR=/venv/petsc
+
+# Install slepsc
+RUN git clone -b release https://gitlab.com/slepc/slepc slepc \
+    && cd slepc \
+    && ./configure --prefix=/venv/slepc \
+    && make SLEPC_DIR=$(pwd) \
+    && make install SLEPC_DIR=$(pwd) \
+    && rm -rf /tmp/* \
+    && rm -rf /slepc
+
+ENV SLEPC_DIR=/venv/slepc
+
+RUN python -m pip install wheel cmake --no-cache-dir \
+    && python -m pip install dev-fenics-ffc mpi4py petsc4py pybind11 --no-cache-dir \
+    && python -m pip install slepc4py
+
+# Install dolfin
+RUN git clone https://bitbucket.org/fenics-project/dolfin.git dolfin \
+    && cd dolfin \
+    && cmake -DCMAKE_INSTALL_PREFIX=/venv -DCMAKE_PREFIX_PATH=/venv -DCMAKE_BUILD_TYPE=Release -B build -S . \
+    && cmake --build build -j6 \
+    && cmake --install build
+
+# This is basically what is in the /venv/share/dolfin/dolfin.conf
+ENV LD_LIBRARY_PATH=/venv/lib:$LD_LIBRARY_PATH
+ENV PATH=/venv/bin:$PATH
+ENV PKG_CONFIG_PATH=/venv/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV MANPATH=/venv/share/man:$MANPATH
+
+# Install the python API
+RUN cd dolfin/python \
+    && CMAKE_PREFIX_PATH=/venv/lib/python3.7/site-packages python -m pip install . --no-cache-dir \
+    && rm -rf /dolfin
+
+
+
+CMD ["bash"]
