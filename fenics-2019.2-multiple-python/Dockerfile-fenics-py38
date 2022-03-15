@@ -40,7 +40,8 @@ ENV SLEPC_DIR=/venv/slepc
 
 RUN python -m pip install wheel cmake --no-cache-dir \
     && python -m pip install dev-fenics-ffc mpi4py petsc4py pybind11 --no-cache-dir \
-    && python -m pip install slepc4py
+    && python -m pip install slepc4py --no-cache-dir \
+    && python -m pip install h5py --no-binary=h5py
 
 
 # Install dolfin

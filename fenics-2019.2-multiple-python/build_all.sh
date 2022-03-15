@@ -6,6 +6,9 @@ docker build -t finsberg/py310-base -f Dockerfile-base-py310 .
 docker push finsberg/py310-base
 docker build -t finsberg/fenics-py310 -f Dockerfile-fenics-py310 .
 docker push finsberg/fenics-py310
+# Use python 3.10 image as main image
+docker image tag finsberg/fenics-py310 finsberg/fenics
+docker push finsberg/fenics
 # Python 3.9
 docker build -t finsberg/py39-base -f Dockerfile-base-py39 .
 docker push finsberg/py39-base
