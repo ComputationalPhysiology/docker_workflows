@@ -1,0 +1,6 @@
+
+
+FROM finsberg/fenics:latest
+
+RUN python3 -m pip install --upgrade pip --no-cache-dir \
+    && python3 -m pip install pip install git+https://github.com/dolfin-adjoint/pyadjoint.git@master
