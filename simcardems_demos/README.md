@@ -15,17 +15,19 @@ Install the community edition (CE).
 
 ![Docker architecture (image is taken from http://apachebooster.com/kb/wp-content/uploads/2017/09/docker-architecture.png)](docker-architecture.png)
 
-An image is a fronzen snapshot of a virtual mechanics, while a
-container is an instance of an image, i.e a container is a running
-instance of an image.
+An image is a frozen snapshot of a virtual machine, while a
+container is a running instance of an image.
 
 This means that every container is associated with a single image, and
 many container can be associated with the same image. 
 
-People upload their images to a remote registry where you can download
-and run instances of these images, and also create your own images on
-top of existing images.
+In order to run the Simcardems demos we need to (i) install docker, (ii) download the
+simcardems image, (iii) start a container based on this image, (iv) make sure
+that our working folder is shared between the container and the native system, and (v) run the
+relevant python scripts from inside the container. Step (iv) is not always needed, but it
+is very useful for being able to edit the demo scripts and to visualize the results. 
 
+Here are the detailed instructions for each step. 
 
 ## Step-by-step recipe
 
