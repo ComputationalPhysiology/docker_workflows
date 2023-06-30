@@ -1,4 +1,4 @@
-# Recipe for running Simcardems demos using docker
+# Running Simcardems demos using docker
 
 ## Install docker
 
@@ -27,7 +27,7 @@ and run instances of these images, and also create your own images on
 top of existing images.
 
 
-## Steps by step instructions
+## Step-by-step recipe
 
 ### Download the simcardems image
 
