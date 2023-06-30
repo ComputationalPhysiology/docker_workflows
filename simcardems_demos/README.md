@@ -24,10 +24,10 @@ many container can be associated with the same image.
 In order to run the Simcardems demos we need to (i) install docker, (ii) download the
 simcardems image, (iii) start a container based on this image, (iv) make sure
 that our working folder is shared between the container and the native system, and (v) run the
-relevant python scripts from inside the container. Step (iv) is not always needed, but it
-is very useful for being able to edit the demo scripts and to visualize the results. 
+relevant python scripts from inside the container. 
 
-Here are the detailed instructions for each step. 
+Step (iv) is not always strictly needed, but it is very useful for being able to edit the 
+demo scripts and to visualize the results. Here are the detailed instructions for each step. 
 
 ## Step-by-step recipe
 
@@ -120,6 +120,10 @@ Although it is a simple demo, it still takes a little while to complete. After i
 should see a new folder named `results_simple_demo`. Since everything was kept inside our shared folder, 
 this folder is also accessible both inside and outside the container. From outside the container
 you can now browse the result files and visualize them using Paraview or any other tool you prefer.
+
+Since the folder containing both the scripts and the results is shared between the container and the
+native system, a natural workflow is to edit the scripts from outside the container (using your favorite editor),
+then run them from inside the container, and then go back to the native system to visualize the results. 
 
 ## Resources
 
