@@ -1,4 +1,4 @@
-# Docker tutorial
+# Recipe for running Simcardems demos using docker
 
 ## Install docker
 
@@ -27,7 +27,7 @@ and run instances of these images, and also create your own images on
 top of existing images.
 
 
-## Working example
+## Steps by step instructions
 
 ### Download the simcardems image
 
@@ -39,8 +39,6 @@ Once this is done you can see a list of the available images on your laptop
 ```
 docker images
 ```
-
-
 ### Create and run a container based on the image
 
 ```
