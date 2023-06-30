@@ -70,7 +70,13 @@ To exit the container type `exit` or `Ctrl+D`.
 If you type `docker ps` now you will see that the container
 disappeared. However if you type `docker ps -a` you will see it
 appear again. It is good practice to delete old containers that are
-not used anymore.
+not used anymore. You can delete the container with `docker rm simcardems`. 
+
+It seems that sometimes the command `exit` will make you both exit the container and stop it,
+as described above. However, other times it will just exit the container, and it keeps running
+in the background. I am not exactly sure why this happens, but it is easy to check by typing
+`docker ps`. If the container is listed it means that it is still running, and you can stop it with 
+`docker stop simcardems`. 
 
 ### Restart container
 If you want to restart the container you can type
@@ -113,7 +119,7 @@ python3 simple_demo.py
 Although it is a simple demo, it still takes a little while to complete. After it completes you 
 should see a new folder named `results_simple_demo`. Since everything was kept inside our shared folder, 
 this folder is also accessible both inside and outside the container. From outside the container
-you can visualize the files using, for instance, paraview. 
+you can now browse the result files and visualize them using Paraview or any other tool you prefer.
 
 ## Resources
 
